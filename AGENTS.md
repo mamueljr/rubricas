@@ -21,10 +21,18 @@ Cada rúbrica vive como módulo en `src/rubricas/<id>/`.
 - Sesión: `src/auth/sesion.ts` (Supabase anonymous auth; sin contraseña).
 - RLS y funciones admin en `supabase/migrations/0001_init.sql`.
 
+## Deploy
+
+GitHub Pages **legacy** desde `main` rama `/docs`. El build genera `docs/`, que se
+commitea y publica en https://mamueljr.github.io/rubricas/ (sin GitHub Actions).
+
+- `npm run build` sale a `docs/` (`vite.config.ts` → `build.outDir`).
+- Flujo: `npm run build && git add docs && git commit -m "build" && git push`.
+
 ## Base path
 
 `vite.config.ts` fija `base: '/rubricas/'` y el `start_url`/`scope` del manifest. Si cambia el
-nombre del repo, actualizar ambos aquí, en el workflow y en el fallback del service worker.
+nombre del repo, actualizar ambos aquí, `build.outDir` y el fallback del service worker.
 
 ## Convenciones
 
@@ -34,7 +42,7 @@ nombre del repo, actualizar ambos aquí, en el workflow y en el fallback del ser
 
 ## Configuración pendiente de entorno
 
-- GitHub Variables: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_ADMIN_KEY`.
+- Variables de build: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_ADMIN_KEY`
+  (se hornean en el bundle al compilar; GitHub Pages no da variables de runtime).
 - Supabase: habilitar **Anonymous sign-ins** en Authentication → Providers.
-- Pages: el workflow usa `actions/deploy-pages`; el proyecto debe tener Pages con fuente
-  "GitHub Actions" (no legacy).
+- Pages: fuente "Deploy from a branch" → `main` / `/docs`.
