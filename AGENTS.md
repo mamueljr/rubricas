@@ -6,7 +6,7 @@ Cada rúbrica vive como módulo en `src/rubricas/<id>/`.
 ## Comandos
 
 - `npm run dev` — servidor local.
-- `npm run build` — `tsc -b && vite build` (genera `dist/` y el service worker PWA).
+- `npm run build` — `tsc -b && vite build` (genera `docs/` y el service worker PWA).
 - `npm run typecheck` — `tsc -b` sin emitir.
 - No hay tests ni linter configurados.
 
