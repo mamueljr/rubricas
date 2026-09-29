@@ -100,6 +100,17 @@ create policy evaluaciones_propias on public.evaluaciones
 -- ---------------------------------------------------------------------------
 -- Funciones de administración (security definer, validadas por clave)
 -- ---------------------------------------------------------------------------
+-- pgcrypto en Supabase vive en el esquema `extensions`; encapsulamos el hash
+-- para que no dependa del search_path de quien la llame.
+create or replace function public.hash_clave(p_clave text)
+returns text
+language sql
+immutable
+set search_path = public, extensions
+as $$
+  select encode(digest(p_clave, 'sha256'), 'hex');
+$$;
+
 create or replace function public.admin_login(p_clave text)
 returns boolean
 language sql
@@ -111,7 +122,7 @@ as $$
     select 1
     from public.config
     where clave = 'admin'
-      and valor = encode(digest(p_clave, 'sha256'), 'hex')
+      and valor = public.hash_clave(p_clave)
   );
 $$;
 

@@ -2,7 +2,7 @@
 -- 1) Define la clave de administrador (debe coincidir con VITE_ADMIN_KEY).
 --    Cambia 'CAMBIA_ESTA_CLAVE' por tu clave real antes de ejecutar.
 insert into public.config (clave, valor)
-values ('admin', encode(digest('CAMBIA_ESTA_CLAVE', 'sha256'), 'hex'))
+values ('admin', public.hash_clave('CAMBIA_ESTA_CLAVE'))
 on conflict (clave) do update set valor = excluded.valor;
 
 -- 2) Equipos de ejemplo (edítalos o bórralos desde el panel de administración).
