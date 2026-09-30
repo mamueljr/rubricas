@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { Marca } from '../componentes/Marca'
+import { Pie } from '../componentes/Pie'
 import { obtenerRubrica } from '../rubricas/diseno-apps-moviles/rubrica.config'
 import { listarEquipos, listarMisEvaluaciones } from '../lib/api'
 import { obtenerEvaluadorId, obtenerNombre, haySesion } from '../auth/sesion'
@@ -114,16 +115,7 @@ export function ListaEquipos() {
           </div>
         )}
       </main>
-      <footer className="pie">
-        Creado por M.I.C Emmanuel Rojas ·{' '}
-        <a
-          href="https://mamueljr.github.io/esiscom/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ESISCOM
-        </a>
-      </footer>
+      <Pie />
     </>
   )
 }

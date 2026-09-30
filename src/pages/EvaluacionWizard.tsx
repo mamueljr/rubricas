@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Marca } from '../componentes/Marca'
 import { BarraSuperior } from '../componentes/BarraSuperior'
 import { BarraInferior } from '../componentes/BarraInferior'
+import { Pie } from '../componentes/Pie'
 import { SelectorNivel } from '../componentes/SelectorNivel'
 import { ResumenFinal } from '../componentes/ResumenFinal'
 import { obtenerRubrica } from '../rubricas/diseno-apps-moviles/rubrica.config'
@@ -348,6 +349,8 @@ export function EvaluacionWizard() {
                 puntajeMaximo={rubrica.puntajeMaximo}
               />
             )}
+
+            <Pie />
           </>
         )}
       </main>

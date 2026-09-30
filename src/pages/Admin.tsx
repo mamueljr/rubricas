@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Marca } from '../componentes/Marca'
+import { Pie } from '../componentes/Pie'
 import { rubricaDisenoAppsMoviles as rubrica } from '../rubricas/diseno-apps-moviles/rubrica.config'
 import {
   esAdmin,
@@ -148,8 +149,9 @@ export function Admin() {
 
   if (!autenticado) {
     return (
-      <main className="app contenido contenido--centrado">
-        <div className="tarjeta" style={{ width: '100%', maxWidth: 420 }}>
+      <>
+        <main className="app contenido contenido--centrado">
+          <div className="tarjeta" style={{ width: '100%', maxWidth: 420 }}>
           <Marca />
           <h1>Administración</h1>
           <p className="subtitulo">
@@ -192,7 +194,9 @@ export function Admin() {
             </div>
           </form>
         </div>
-      </main>
+        </main>
+        <Pie />
+      </>
     )
   }
 
@@ -357,6 +361,7 @@ export function Admin() {
           </table>
         </div>
       </main>
+      <Pie />
     </>
   )
 }

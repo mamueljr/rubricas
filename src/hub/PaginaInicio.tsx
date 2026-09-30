@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { Marca } from '../componentes/Marca'
+import { Pie } from '../componentes/Pie'
 import { rubricas } from '../rubricas/diseno-apps-moviles/rubrica.config'
 import { haySesion, iniciarSesion, obtenerNombre, cerrarSesion } from '../auth/sesion'
 import { hayNube } from '../lib/supabase'
@@ -33,50 +34,53 @@ export function PaginaInicio() {
 
   if (!sesionActiva) {
     return (
-      <main className="app contenido contenido--centrado">
-        <div className="tarjeta" style={{ width: '100%', maxWidth: 420 }}>
-          <Marca />
-          <h1>Rúbricas de evaluación</h1>
-          <p className="subtitulo">
-            Escribe tu nombre para comenzar. No necesitas cuenta ni contraseña.
-          </p>
-          <form onSubmit={entrar}>
-            <div className="campo">
-              <label className="campo__etiqueta" htmlFor="nombre">
-                Tu nombre
-              </label>
-              <input
-                id="nombre"
-                type="text"
-                autoComplete="name"
-                autoFocus
-                placeholder="Ej. Prof. Emmanuel Rojas"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-              />
-            </div>
-            {error && (
-              <p className="mensaje-error" role="alert">
-                {error}
-              </p>
-            )}
-            <div className="acciones">
-              <button
-                type="submit"
-                className="boton boton--primario boton--bloque"
-                disabled={cargando || nombre.trim().length === 0}
-              >
-                {cargando ? 'Entrando…' : 'Comenzar'}
-              </button>
-            </div>
-          </form>
-          <p className="nota">
-            {hayNube
-              ? 'Tus evaluaciones quedan guardadas y solo tú puedes verlas.'
-              : 'Modo local: los datos se guardan en este dispositivo hasta conectar Supabase.'}
-          </p>
-        </div>
-      </main>
+      <>
+        <main className="app contenido contenido--centrado">
+          <div className="tarjeta" style={{ width: '100%', maxWidth: 420 }}>
+            <Marca />
+            <h1>Rúbricas de evaluación</h1>
+            <p className="subtitulo">
+              Escribe tu nombre para comenzar. No necesitas cuenta ni contraseña.
+            </p>
+            <form onSubmit={entrar}>
+              <div className="campo">
+                <label className="campo__etiqueta" htmlFor="nombre">
+                  Tu nombre
+                </label>
+                <input
+                  id="nombre"
+                  type="text"
+                  autoComplete="name"
+                  autoFocus
+                  placeholder="Ej. Prof. Emmanuel Rojas"
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
+                />
+              </div>
+              {error && (
+                <p className="mensaje-error" role="alert">
+                  {error}
+                </p>
+              )}
+              <div className="acciones">
+                <button
+                  type="submit"
+                  className="boton boton--primario boton--bloque"
+                  disabled={cargando || nombre.trim().length === 0}
+                >
+                  {cargando ? 'Entrando…' : 'Comenzar'}
+                </button>
+              </div>
+            </form>
+            <p className="nota">
+              {hayNube
+                ? 'Tus evaluaciones quedan guardadas y solo tú puedes verlas.'
+                : 'Modo local: los datos se guardan en este dispositivo hasta conectar Supabase.'}
+            </p>
+          </div>
+        </main>
+        <Pie />
+      </>
     )
   }
 
@@ -116,16 +120,7 @@ export function PaginaInicio() {
           </button>
         </div>
       </main>
-      <footer className="pie">
-        Creado por M.I.C Emmanuel Rojas ·{' '}
-        <a
-          href="https://mamueljr.github.io/esiscom/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ESISCOM
-        </a>
-      </footer>
+      <Pie />
     </>
   )
 }
