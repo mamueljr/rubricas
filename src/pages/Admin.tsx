@@ -339,6 +339,7 @@ export function Admin() {
                 <th>Equipo</th>
                 <th>Promedio</th>
                 <th>N.º evaluaciones</th>
+                <th>Evaluadores</th>
               </tr>
             </thead>
             <tbody>
@@ -350,11 +351,18 @@ export function Admin() {
                   </td>
                   <td>{p.promedio}</td>
                   <td>{p.evaluaciones}</td>
+                  <td style={{ whiteSpace: 'normal' }}>
+                    {p.evaluadores.length === 0
+                      ? '—'
+                      : p.evaluadores.map((id) => (
+                          <div key={id}>{nombreEvaluador(id)}</div>
+                        ))}
+                  </td>
                 </tr>
               ))}
               {promedios.length === 0 && (
                 <tr>
-                  <td colSpan={3}>Sin datos.</td>
+                  <td colSpan={4}>Sin evaluaciones enviadas todavía.</td>
                 </tr>
               )}
             </tbody>

@@ -79,4 +79,5 @@ export interface PromedioEquipo {
   equipoId: string
   promedio: number
   evaluaciones: number
+  evaluadores: string[]
 }

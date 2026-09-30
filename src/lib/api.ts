@@ -224,17 +224,22 @@ export async function listarEvaluadores(clave: string): Promise<Evaluador[]> {
 export function promediosPorEquipo(
   evaluaciones: Evaluacion[],
 ): PromedioEquipo[] {
-  const mapa = new Map<string, { suma: number; n: number }>()
+  const mapa = new Map<
+    string,
+    { suma: number; n: number; evaluadores: string[] }
+  >()
   for (const e of evaluaciones) {
-    if (e.total == null) continue
-    const actual = mapa.get(e.equipoId) ?? { suma: 0, n: 0 }
+    if (e.total == null || !e.enviado) continue
+    const actual = mapa.get(e.equipoId) ?? { suma: 0, n: 0, evaluadores: [] }
     actual.suma += e.total
     actual.n += 1
+    actual.evaluadores.push(e.evaluadorId)
     mapa.set(e.equipoId, actual)
   }
-  return [...mapa.entries()].map(([equipoId, { suma, n }]) => ({
+  return [...mapa.entries()].map(([equipoId, { suma, n, evaluadores }]) => ({
     equipoId,
     promedio: Math.round((suma / n) * 10) / 10,
     evaluaciones: n,
+    evaluadores,
   }))
 }

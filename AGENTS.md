@@ -32,6 +32,8 @@ Cada rúbrica vive como módulo en `src/rubricas/<id>/`.
 - Borradores offline: `src/lib/borradorOffline.ts` guarda en `rubricas.borradores`
   con flag `pendiente`; el wizard reintenta sincronizarlos al cargar.
 - Exportación CSV (con BOM UTF-8) en `src/lib/exportar.ts`.
+- Panel admin: `promediosPorEquipo` (en `src/lib/api.ts`) cuenta sólo evaluaciones
+  `enviado` y devuelve `evaluadores` (ids) por equipo, que `Admin.tsx` traduce a nombres.
 
 ## Supabase
 
