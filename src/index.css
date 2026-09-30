@@ -323,6 +323,12 @@ p {
   width: 100%;
 }
 
+.boton--mini {
+  min-height: auto;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+}
+
 .campo {
   display: grid;
   gap: 8px;
@@ -678,6 +684,18 @@ table.tabla {
   height: 1px;
   background: var(--borde);
   margin: 20px 0;
+}
+
+.zona-peligro {
+  margin-top: 32px;
+  padding: 18px;
+  border: 1px solid var(--peligro);
+  border-radius: var(--radio);
+}
+
+.zona-peligro__titulo {
+  font-size: 1.1rem;
+  color: var(--peligro);
 }
 
 @media (prefers-reduced-motion: reduce) {

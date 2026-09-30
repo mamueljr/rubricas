@@ -31,11 +31,12 @@ const equiposSemilla: Equipo[] = [
 ]
 
 export function listarEquiposLocal(): Equipo[] {
-  const equipos = leer<Equipo[]>(EQUIPOS_KEY, [])
-  if (equipos.length === 0) {
+  const crudo = localStorage.getItem(EQUIPOS_KEY)
+  if (crudo === null) {
     escribir(EQUIPOS_KEY, equiposSemilla)
     return equiposSemilla
   }
+  const equipos = leer<Equipo[]>(EQUIPOS_KEY, [])
   return [...equipos].sort((a, b) => a.orden - b.orden)
 }
 
@@ -60,5 +61,9 @@ export function guardarEvaluadorLocal(evaluador: Evaluador): void {
     (e) => e.id !== evaluador.id,
   )
   evaluadores.push(evaluador)
+  escribir(EVALUADORES_KEY, evaluadores)
+}
+
+export function guardarEvaluadoresLocal(evaluadores: Evaluador[]): void {
   escribir(EVALUADORES_KEY, evaluadores)
 }

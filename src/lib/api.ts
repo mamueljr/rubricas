@@ -5,6 +5,7 @@ import {
   listarEvaluacionesLocal,
   guardarEvaluacionesLocal,
   listarEvaluadoresLocal,
+  guardarEvaluadoresLocal,
   nuevoId,
 } from './almacen'
 import type {
@@ -193,6 +194,47 @@ export async function eliminarEquipo(clave: string, id: string): Promise<void> {
     return
   }
   guardarEquiposLocal(listarEquiposLocal().filter((e) => e.id !== id))
+}
+
+export async function eliminarEvaluacion(
+  clave: string,
+  id: string,
+): Promise<void> {
+  if (hayNube && supabase) {
+    const { error } = await supabase.rpc('admin_eliminar_evaluacion', {
+      p_clave: clave,
+      p_id: id,
+    })
+    if (error) throw error
+    return
+  }
+  guardarEvaluacionesLocal(
+    listarEvaluacionesLocal().filter((e) => e.id !== id),
+  )
+}
+
+export async function borrarTodasEvaluaciones(clave: string): Promise<void> {
+  if (hayNube && supabase) {
+    const { error } = await supabase.rpc('admin_borrar_evaluaciones', {
+      p_clave: clave,
+    })
+    if (error) throw error
+    return
+  }
+  guardarEvaluacionesLocal([])
+}
+
+export async function borrarTodo(clave: string): Promise<void> {
+  if (hayNube && supabase) {
+    const { error } = await supabase.rpc('admin_borrar_todo', {
+      p_clave: clave,
+    })
+    if (error) throw error
+    return
+  }
+  guardarEvaluacionesLocal([])
+  guardarEquiposLocal([])
+  guardarEvaluadoresLocal([])
 }
 
 export async function listarTodasEvaluaciones(

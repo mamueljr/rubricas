@@ -37,8 +37,9 @@ Cada rúbrica vive como módulo en `src/rubricas/<id>/`.
 
 ## Supabase
 
-- Migraciones en `supabase/migrations/0001_init.sql`; **no se aplican solas**: hay que
-  ejecutarlas en el SQL Editor o con `supabase db push`.
+- Migraciones en `supabase/migrations/` (`0001_init.sql`, `0002_admin_borrados.sql`);
+  **no se aplican solas**: hay que ejecutarlas en el SQL Editor o con `supabase db push`.
+  Sin la 0002, los botones de borrado admin fallan en modo nube.
 - `supabase/seed.sql` define la clave admin (hasheada con `hash_clave`); reemplaza
   `CAMBIA_ESTA_CLAVE` antes de ejecutarlo. El repo es público: no commitear la clave real.
 - La gestión admin (equipos, listar evaluaciones/evaluadores) pasa por RPC `security

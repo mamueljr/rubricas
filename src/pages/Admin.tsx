@@ -7,6 +7,9 @@ import {
   esAdmin,
   guardarEquipo,
   eliminarEquipo,
+  eliminarEvaluacion,
+  borrarTodasEvaluaciones,
+  borrarTodo,
   listarEquipos,
   listarTodasEvaluaciones,
   listarEvaluadores,
@@ -147,6 +150,56 @@ export function Admin() {
     setAviso(ok ? 'CSV copiado al portapapeles.' : 'No se pudo copiar.')
   }
 
+  async function borrarEvaluacion(id: string) {
+    if (!window.confirm('¿Borrar esta evaluación? Esta acción no se puede deshacer.'))
+      return
+    setError('')
+    setAviso('')
+    try {
+      await eliminarEvaluacion(clave, id)
+      await recargar(clave)
+      setAviso('Evaluación borrada.')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'No se pudo borrar.')
+    }
+  }
+
+  async function borrarEvaluaciones() {
+    if (
+      !window.confirm(
+        '¿Borrar TODAS las evaluaciones? Se conservan equipos y jueces. Esta acción no se puede deshacer.',
+      )
+    )
+      return
+    setError('')
+    setAviso('')
+    try {
+      await borrarTodasEvaluaciones(clave)
+      await recargar(clave)
+      setAviso('Todas las evaluaciones fueron borradas.')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'No se pudo borrar.')
+    }
+  }
+
+  async function borrarTodoAdmin() {
+    if (
+      !window.confirm(
+        '¿Borrar TODO? Se eliminarán los jueces, todas las calificaciones y los equipos. Esta acción no se puede deshacer.',
+      )
+    )
+      return
+    setError('')
+    setAviso('')
+    try {
+      await borrarTodo(clave)
+      await recargar(clave)
+      setAviso('Se borró todo: jueces, calificaciones y equipos.')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'No se pudo borrar.')
+    }
+  }
+
   if (!autenticado) {
     return (
       <>
@@ -283,7 +336,7 @@ export function Admin() {
           {evaluaciones.filter((e) => e.enviado).length} enviadas.
         </p>
 
-        <div className="acciones" style={{ gridAutoFlow: 'column', maxWidth: 420 }}>
+        <div className="acciones" style={{ gridAutoFlow: 'column', maxWidth: 620 }}>
           <button
             type="button"
             className="boton boton--primario"
@@ -298,6 +351,14 @@ export function Admin() {
           >
             Copiar CSV
           </button>
+          <button
+            type="button"
+            className="boton boton--peligro"
+            onClick={borrarEvaluaciones}
+            disabled={evaluaciones.length === 0}
+          >
+            Borrar evaluaciones
+          </button>
         </div>
 
         <div className="tabla-scroll">
@@ -308,6 +369,7 @@ export function Admin() {
                 <th>Juez</th>
                 <th>Total</th>
                 <th>Enviado</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -320,11 +382,20 @@ export function Admin() {
                   <td>{nombreEvaluador(e.evaluadorId)}</td>
                   <td>{e.total ?? '—'}</td>
                   <td>{e.enviado ? 'Sí' : 'No'}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="boton boton--peligro boton--mini"
+                      onClick={() => borrarEvaluacion(e.id)}
+                    >
+                      Borrar
+                    </button>
+                  </td>
                 </tr>
               ))}
               {evaluaciones.length === 0 && (
                 <tr>
-                  <td colSpan={4}>Sin evaluaciones todavía.</td>
+                  <td colSpan={5}>Sin evaluaciones todavía.</td>
                 </tr>
               )}
             </tbody>
@@ -368,6 +439,21 @@ export function Admin() {
             </tbody>
           </table>
         </div>
+
+        <section className="zona-peligro">
+          <h2 className="zona-peligro__titulo">Zona de peligro</h2>
+          <p className="nota">
+            Borra <strong>jueces, calificaciones y equipos</strong>. No se puede
+            deshacer.
+          </p>
+          <button
+            type="button"
+            className="boton boton--peligro boton--bloque"
+            onClick={borrarTodoAdmin}
+          >
+            Borrar todo
+          </button>
+        </section>
       </main>
       <Pie />
     </>
